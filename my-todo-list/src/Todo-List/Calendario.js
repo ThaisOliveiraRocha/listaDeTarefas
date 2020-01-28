@@ -9,36 +9,30 @@ class Calendario extends Component {
         this.onSubmit = this.onSubmit.bind(this)
         this.deleteItem = this.deleteItem.bind(this)
 
-            this.state = {eventos: {
-                'nome': '',
-                'hora_inic': '',
-                'min_inic': '',
-                'hora_fim': '',
-                'min_fim': ''
+            this.state = {
+                eventos: [],
             }
-        }
     }
 
     onSubmit(event){
         event.preventDefault();
-        var novoItem = {
-            'nome': this.refs.tarefa.value,
-            'hora_inic': this.refs.hora_inicio.value,
-            'min_inic': this.refs.minuto_inicio.value,
-            'hora_fim': this.refs.hora_fim.value,
-            'min_fim': this.refs.minuto_fim.value
-        }
+        var novoItem = [
+            this.refs.tarefa.value,
+            this.refs.data_inicio.value,
+            this.refs.data_fim.value,
+        ]
         
-        if(novoItem) {          
-            console.log(novoItem)
+        if(novoItem) {
+            var vetItens = this.state.eventos.concat(novoItem)
+            this.setState({eventos: vetItens}) 
             this.refs.form.reset();
         }
     }
 
     deleteItem(index) {
-        var clone = Array.from(this.state.tarefas)
+        var clone = Array.from(this.state.eventos)
         clone.splice(index, 1)
-        this.setState({ tarefas: clone })
+        this.setState({ eventos: clone })
     }
     
 
@@ -50,23 +44,26 @@ class Calendario extends Component {
 
                     <form ref="form" onSubmit={this.onSubmit} className="form-inline">
                         
-                        <label for="nova_tarefa">Nome da tarefa: </label>
+                        <label>Nome da tarefa: </label>
                             <input type="text" ref="tarefa" placeholder="Digite a tarefa aqui"></input>
                         <br />
                         
                         
-                        <label for="hora_inicio">Hora Início: </label>
-                            <input type="number" ref="hora_inicio" min="1" max="12"></input>:<input type="number" ref="minuto_inicio" min="00" max="59"></input>
+                        <label>Data Início: </label>
+                            <input type="date" ref="data_inicio" min="2020-01-01" max="2099-12-31"></input>
                         <br />
-                        
-                        <label for="hora_fim">Hora Fim: </label>
-                            <input type="number" ref="hora_fim" min="1" max="12"></input>:<input type="number" ref="minuto_fim" min="00" max="59"></input>
+
+                        <label>Data Fim: </label>
+                            <input type="date" ref="data_fim" min="2020-01-01" max="2099-12-31"></input>
                         <br />
 
                         <input type="submit" name="btnAdd" value="Continuar"/>
                         <br /><br />
 
-                        
+
+                        {this.state.eventos.map((item, index) => {
+                            return <li key={index} onClick={() => this.deleteItem(index)}>{item}</li>
+                        })}
 
                         <br />
                         <input type="submit" name="btnSend" value="Adicionar Evento"/>
@@ -96,3 +93,28 @@ export default Calendario;
 //{this.state.eventos.map((item, index) => {
 //    return <li key={index} onClick={() => this.deleteItem(index)}>{item}</li>
 //})}
+
+
+//https://www.robinwieruch.de/react-state-array-add-update-remove
+
+//FAZER ISSO... tlvz resolva o problema de estar exibindo três linhas com tarefa, dtInicio e dtFim
+
+
+//this.state = {
+
+//    eventos: [
+
+//        {
+
+      //      'nome': '',
+
+     //       'data_inicio': '',
+
+      //      'data_fim': '',
+
+    //    },
+
+   // ],
+
+//};
+

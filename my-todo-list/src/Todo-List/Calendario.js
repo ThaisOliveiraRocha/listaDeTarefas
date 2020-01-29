@@ -10,7 +10,7 @@ class Calendario extends Component {
         this.deleteItem = this.deleteItem.bind(this)
 
             this.state = {
-                    eventos: [],
+                    eventos: JSON.parse(localStorage.getItem('index')) || [],
             }
     }
 
@@ -23,9 +23,12 @@ class Calendario extends Component {
         }
 
 
-
-            var vetItens = this.state.eventos
+            console.log(localStorage.getItem('index'))
+            var vetItens = JSON.parse(localStorage.getItem('index')) || this.state.eventos
             vetItens.push(novoItem)
+
+            localStorage.setItem('index', JSON.stringify(vetItens))
+
             this.setState({eventos: vetItens}) 
             this.refs.form.reset();
     }

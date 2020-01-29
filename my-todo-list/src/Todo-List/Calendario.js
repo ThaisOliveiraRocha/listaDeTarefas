@@ -10,23 +10,24 @@ class Calendario extends Component {
         this.deleteItem = this.deleteItem.bind(this)
 
             this.state = {
-                eventos: [],
+                    eventos: [],
             }
     }
 
     onSubmit(event){
         event.preventDefault();
-        var novoItem = [
-            this.refs.tarefa.value,
-            this.refs.data_inicio.value,
-            this.refs.data_fim.value,
-        ]
-        
-        if(novoItem) {
-            var vetItens = this.state.eventos.concat(novoItem)
+        const novoItem = {
+            'nome': this.refs.tarefa.value,
+            'data_inicio': this.refs.data_inicio.value,
+            'data_fim': this.refs.data_fim.value,
+        }
+
+
+
+            var vetItens = this.state.eventos
+            vetItens.push(novoItem)
             this.setState({eventos: vetItens}) 
             this.refs.form.reset();
-        }
     }
 
     deleteItem(index) {
@@ -61,9 +62,9 @@ class Calendario extends Component {
                         <br /><br />
 
 
-                        {this.state.eventos.map((item, index) => {
-                            return <li key={index} onClick={() => this.deleteItem(index)}>{item}</li>
-                        })}
+                        {this.state.eventos.map((item, index) => 
+                             <li key={index} onClick={() => this.deleteItem(index)}>{item.nome}, {item.data_inicio}, {item.data_fim}</li>
+                        )}
 
                         <br />
                         <input type="submit" name="btnSend" value="Adicionar Evento"/>
